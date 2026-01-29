@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "358691304491",
+    "project_id": "routiner-7559a",
+    "storage_bucket": "routiner-7559a.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:358691304491:android:8208d8daa18dd9cbe7266e",
+        "android_client_info": {
+          "package_name": "com.example.routiner"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBRg_fYa5mlfy20AYeavw0RYx0IawRLPYY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
