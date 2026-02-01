@@ -155,6 +155,8 @@ class AppDimensions {
 
   static double get iconXHuge => 64.r;
 
+  static double get icon5XHuge => 474.r;
+
   // ==================== BUTTON DIMENSIONS ====================
 
   static double get buttonHeightSM => 32.h;
@@ -259,6 +261,11 @@ class AppDimensions {
   static double get imageMedium => 200.r;
 
   static double get imageLarge => 300.r;
+
+  // ==================== LOGO DIMENSIONS ====================
+
+  static double get logoWidth => 240.w;
+  static double get logoHeight => 73.h;
 
   // ==================== DIALOG DIMENSIONS ====================
 

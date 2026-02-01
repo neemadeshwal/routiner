@@ -1,5 +1,7 @@
 import 'dart:ui';
 
+import 'package:flutter/painting.dart';
+
 class AppColors {
   AppColors._();
 
@@ -136,6 +138,20 @@ class AppColors {
   // Dark Mode Gradients
   static const Color gradientStartDark = Color(0XFF5D68B8);
   static const Color gradientEndDark = Color(0XFF8891E8);
+
+  // Background Gradients
+
+  static const BoxDecoration backgroundGradient = BoxDecoration(
+    gradient: LinearGradient(
+      begin: Alignment.centerLeft,
+      end: Alignment.centerRight,
+      colors: [
+        Color(0xFF9DCEFF), // Lighter sky blue
+
+        Color(0xFF92A3FD), // Darker periwinkle
+      ],
+    ),
+  );
 }
 
 
