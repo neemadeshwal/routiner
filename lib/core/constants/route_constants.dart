@@ -4,4 +4,5 @@ class RouteConstants {
   static const String signup = "/signup";
   static const String signin = "/signin";
   static const String home = "/home";
+  static const String welcome = "/welcome_screen";
 }

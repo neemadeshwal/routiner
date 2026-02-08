@@ -168,6 +168,7 @@ class AppDimensions {
   static double get buttonHeightXL => 56.h;
 
   // Button widths
+  static double get buttonWidthXS => 40.w;
   static double get buttonWidthSM => 80.w;
   static double get buttonWidthMD => 120.w;
   static double get buttonWidthLG => 160.w;
@@ -266,6 +267,8 @@ class AppDimensions {
 
   static double get logoWidth => 240.w;
   static double get logoHeight => 73.h;
+  static double get logoWidthSM => 140.w;
+  static double get logoHeightSM => 50.h;
 
   // ==================== DIALOG DIMENSIONS ====================
 
