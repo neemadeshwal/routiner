@@ -3,6 +3,8 @@ import 'package:go_router/go_router.dart';
 import 'package:routiner/core/constants/route_constants.dart';
 import 'package:routiner/features/home/presentation/pages/home_screen.dart';
 import 'package:routiner/core/constants/constants_imports.dart';
+import 'package:routiner/features/onboarding/presentation/pages/onboarding_screen.dart';
+import 'package:routiner/features/onboarding/presentation/pages/welcome_screen.dart';
 import 'package:routiner/features/splash/presentation/pages/splash_screen.dart';
 
 class RouteConfig {
@@ -13,6 +15,14 @@ class RouteConfig {
       GoRoute(
         path: RouteConstants.splash,
         builder: (context, state) => const SplashScreen(),
+      ),
+      GoRoute(
+        path: RouteConstants.onBoarding,
+        builder: (context, state) => const OnboardingPage(),
+      ),
+      GoRoute(
+        path: RouteConstants.welcome,
+        builder: (context, state) => const WelcomeScreen(),
       ),
       GoRoute(
         path: RouteConstants.home,

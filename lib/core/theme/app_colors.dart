@@ -58,6 +58,8 @@ class AppColors {
   static const Color textPlaceholder = Color(0XFFA1A4B2);
   static const Color textDisabled = Color(0XFFEEEEEE);
   static const Color textOnPrimary = Color(0XFFFFFFFF);
+  static const Color textTitleColored = Color(0XFFFFECCC);
+  static const Color textSubTitleColored = Color(0XFFEBEAEC);
 
   // Dark Mode - High contrast for readability
   static const Color textPrimaryDark = Color(0XFFF5F5F7); // Almost white

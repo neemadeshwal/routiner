@@ -4,4 +4,6 @@ class IconsAssets {
       "assets/icons/logo/splash-bg-circle.svg";
 }
 
-class ImagesAssets {}
+class ImagesAssets {
+  static const String welcomeBg = "assets/images/welcome/welcome-bg.png";
+}
