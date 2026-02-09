@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:routiner/core/constants/app_constants.dart';
-import 'package:routiner/core/constants/route_constants.dart';
+import 'package:routiner/core/constants/constants_imports.dart';
 import 'package:routiner/core/theme/theme_imports.dart';
-import 'package:routiner/core/utils/extensions.dart';
 import 'package:routiner/core/widgets/custom/custom_button.dart';
 import 'package:routiner/features/onboarding/presentation/widgets/onboarding_item.dart';
 
@@ -44,7 +42,17 @@ class OnboardingPage extends StatefulWidget {
   State<OnboardingPage> createState() => _OnboardingPageState();
 }
 
+// declaration-->creation-->usage-->dispose
 class _OnboardingPageState extends State<OnboardingPage> {
+  //In Dart, the late keyword is a promise you make to the compiler. You are saying: "I’m not giving this variable a value right now, but I promise I will give it one before I ever try to use it."
+
+  //Without late, Dart's "Null Safety" rules would force you to either give the variable a value immediately or make it nullable (e.g., PageController?).
+
+  //Use late when you know a variable will be initialized in initState.
+
+  //Use late to avoid making variables nullable (?) when they don't need to be.
+
+  //Use late for expensive operations you only want to run if they are actually needed.
   late PageController _pageController;
   int _currentPage = 0;
 
@@ -85,9 +93,8 @@ class _OnboardingPageState extends State<OnboardingPage> {
                       );
                     },
                   ),
-
                   Positioned(
-                    right: 0,
+                    right: 10,
                     top: 16,
                     child: CustomButton.text(
                       text: AppConstants.skip.toUpperCase(),
@@ -97,6 +104,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                       },
                     ),
                   ),
+
                   _buildDots(),
                   _buildNextButton(),
                 ],
@@ -118,9 +126,9 @@ class _OnboardingPageState extends State<OnboardingPage> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: List.generate(onboardingData.length, (index) {
           return AnimatedContainer(
-            duration: Duration(milliseconds: 300),
+            duration: const Duration(milliseconds: 300),
             height: 8,
-            margin: EdgeInsets.symmetric(horizontal: 4),
+            margin: const EdgeInsets.symmetric(horizontal: 4),
             width: index == _currentPage ? 24 : 8,
             decoration: BoxDecoration(
               color: index == _currentPage
@@ -150,7 +158,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
 
         onPressed: () {
           if (_currentPage == onboardingData.length - 1) {
-            context.go('/welcome_screen');
+            context.go(RouteConstants.welcome);
             // Navigate to the next screen or perform any action you want
           } else if (_currentPage < onboardingData.length - 1) {
             _pageController.nextPage(
