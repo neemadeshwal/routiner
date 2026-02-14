@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:routiner/core/constants/constants_imports.dart';
 import 'package:routiner/core/theme/theme_imports.dart';
 import 'package:routiner/core/utils/extensions.dart';
@@ -58,7 +59,9 @@ class WelcomeScreen extends StatelessWidget {
                 bgColor: Colors.white,
                 textColor: AppColors.shimmerDark,
                 size: ButtonSize.extraLarge,
-                onPressed: () {},
+                onPressed: () {
+                  context.go(RouteConstants.signin);
+                },
               ),
             ],
           ),

@@ -1,6 +1,7 @@
-import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:routiner/core/constants/route_constants.dart';
+import 'package:routiner/features/auth/presentation/pages/signin_screen.dart';
+import 'package:routiner/features/auth/presentation/pages/signup_screen.dart';
 import 'package:routiner/features/home/presentation/pages/home_screen.dart';
 import 'package:routiner/core/constants/constants_imports.dart';
 import 'package:routiner/features/onboarding/presentation/pages/onboarding_screen.dart';
@@ -23,6 +24,14 @@ class RouteConfig {
       GoRoute(
         path: RouteConstants.welcome,
         builder: (context, state) => const WelcomeScreen(),
+      ),
+      GoRoute(
+        path: RouteConstants.signin,
+        builder: (context, state) => const SigninScreen(),
+      ),
+      GoRoute(
+        path: RouteConstants.signup,
+        builder: (context, state) => const SignUpScreen(),
       ),
       GoRoute(
         path: RouteConstants.home,

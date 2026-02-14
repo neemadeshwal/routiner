@@ -109,7 +109,7 @@ class AppColors {
 
   // ==================== INPUT FIELD COLORS ====================
   // Light Mode
-  static const Color inputBackground = Color(0XFFF7F8FF);
+  static const Color inputBackground = Color(0XFFF2F3F7);
   static const Color inputBorder = Color(0XFFE8ECF4);
   static const Color inputFocused = Color(0XFF7583CA);
 
