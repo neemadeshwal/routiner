@@ -68,6 +68,7 @@ class CustomButton extends StatelessWidget {
     Color? bgColor,
     Color? textColor,
     Gradient? bgGradient,
+    EdgeInsets? padding,
   }) {
     return CustomButton(
       onPressed: onPressed,
@@ -80,6 +81,7 @@ class CustomButton extends StatelessWidget {
       bgColor: bgColor ?? AppColors.primary, // ✅ Set colors
       textColor: textColor ?? AppColors.textOnPrimary,
       bgGradient: bgGradient,
+      padding: padding,
     );
   }
 
@@ -96,6 +98,7 @@ class CustomButton extends StatelessWidget {
     Color? textColor,
     Color? borderColor,
     double? borderWidth,
+    EdgeInsets? padding,
   }) {
     return CustomButton(
       onPressed: onPressed,
@@ -105,6 +108,8 @@ class CustomButton extends StatelessWidget {
       iconLeft: iconLeft,
       iconRight: iconRight,
       size: size,
+      padding: padding,
+
       bgColor: Colors.transparent, // ✅ Set colors
       textColor: textColor ?? AppColors.textOnPrimary,
       borderColor: borderColor ?? AppColors.primary, // ✅ Set border color
@@ -153,6 +158,7 @@ class CustomButton extends StatelessWidget {
         child: InkWell(
           onTap: isDisabled ? null : onPressed,
           child: Container(
+            padding: padding,
             decoration: BoxDecoration(
               color: bgGradient == null
                   ? isDisabled

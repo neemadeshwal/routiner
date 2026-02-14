@@ -56,6 +56,33 @@ class AppDimensions {
   static double get verticalPaddingMD => 16.h;
   static double get verticalPaddingLG => 24.h;
 
+  // height
+
+  static double get height4 => 4.h;
+
+  static double get height8 => 8.h;
+
+  static double get height12 => 12.h;
+
+  static double get height16 => 16.h;
+
+  static double get height20 => 20.h;
+
+  static double get height24 => 24.h;
+  static double get height29 => 29.h;
+
+  static double get height30 => 30.h;
+
+  static double get height32 => 32.h;
+
+  static double get height33 => 33.h;
+
+  static double get height40 => 40.h;
+
+  static double get height48 => 48.h;
+
+  static double get height64 => 64.h;
+
   // ==================== MARGIN ====================
 
   static double get marginXS => 4.w;
