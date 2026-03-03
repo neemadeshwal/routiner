@@ -12,7 +12,12 @@
           "package_name": "com.example.routiner"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "358691304491-4ginb202s660sdbg2rs2vjuahdkd1rpa.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyBRg_fYa5mlfy20AYeavw0RYx0IawRLPYY"
@@ -20,7 +25,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "358691304491-4ginb202s660sdbg2rs2vjuahdkd1rpa.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "358691304491-71tkvfql3roq1d9pcv5dl0626bmtltv4.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.routiner"
+              }
+            }
+          ]
         }
       }
     }
