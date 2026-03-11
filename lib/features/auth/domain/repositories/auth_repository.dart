@@ -16,12 +16,15 @@ abstract class AuthRepository {
     required String userName,
   });
 
+  Future<Either<Failure,void>> signOut();
+  Future<Either<Failure, void>> forgotPassword(String email);
+
   // Future<Either<Failure, void>> sendEmailVerification();
 
   // Future<Either<Failure, void>> resetPassword(String email);
 
   // Google Sign in
-  // Future<Either<Failure, UserEntity>> signInWithGoogle();
+  Future<Either<Failure, UserEntity>> signInWithGoogle();
 
   // Facebook Sign in
   // Future<Either<Failure, UserEntity>> signInWithFacebook();
@@ -40,5 +43,5 @@ abstract class AuthRepository {
   // Future<Either<Failure, void>> enableBiometric(bool enable);
 
   // User management
-  // Future<Either<Failure, UserEntity>> getCurrentUser();
+  Future<Either<Failure, UserEntity?>> getCurrentUser();
 }

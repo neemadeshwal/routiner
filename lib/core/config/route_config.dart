@@ -1,5 +1,8 @@
 import 'package:go_router/go_router.dart';
 import 'package:routiner/core/constants/route_constants.dart';
+import 'package:routiner/features/auth/presentation/pages/forgot_password.dart';
+import 'package:routiner/features/auth/presentation/pages/otp_verification.dart';
+import 'package:routiner/features/auth/presentation/pages/reset_password.dart';
 import 'package:routiner/features/auth/presentation/pages/signin_screen.dart';
 import 'package:routiner/features/auth/presentation/pages/signup_screen.dart';
 import 'package:routiner/features/home/presentation/pages/home_screen.dart';
@@ -37,6 +40,9 @@ class RouteConfig {
         path: RouteConstants.home,
         builder: (context, state) => const HomeScreen(),
       ),
+      GoRoute(path: RouteConstants.forgotPassword,builder: (context,state)=>const ForgotPasswordScreen()),
+      GoRoute(path:RouteConstants.otpVerification,builder:(context,state)=>const OtpVerificationScreen()),
+      GoRoute(path:RouteConstants.resetPassword,builder:(context,state)=>const ResetPasswordScreen())
     ],
   );
   static GoRouter get router => _router;

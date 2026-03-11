@@ -12,18 +12,21 @@ abstract class AuthRemoteDatasource {
     String password,
     String userName,
   );
-  // Future<UserModel?> getCurrentUser();
+  Future<UserModel?> getCurrentUser();
+  Future<void> signOut();
+  Future<UserModel> signInWithGoogle();
+  Future<void> forgotPassword(String email);
 }
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDatasource {
   final FirebaseAuth firebaseAuth;
   final FirebaseFirestore firestore;
-  // final GoogleSignIn googleSignIn;
+  final GoogleSignIn googleSignIn;
 
   AuthRemoteDataSourceImpl({
     required this.firebaseAuth,
     required this.firestore,
-    // required this.googleSignIn,
+    required this.googleSignIn,
   });
   @override
   Future<UserModel> signInWithEmail(String email, String password) async {
@@ -32,13 +35,12 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDatasource {
         email: email,
         password: password,
       );
-
-      if (userCreds.user == null) {
-        throw AuthException("Sign in failed");
-      }
+      if (userCreds.user == null) throw AuthException("Sign in failed");
       return UserModel.fromFirebaseUser(userCreds.user!);
+    } on FirebaseAuthException catch (e) {
+      throw AuthException(e.message ?? 'Sign in failed');
     } catch (e) {
-      throw AuthException("An unexpected error occured.");
+      throw AuthException("An unexpected error occurred.");
     }
   }
 
@@ -53,12 +55,68 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDatasource {
         email: email,
         password: password,
       );
-      if (userCreds.user == null) {
-        throw AuthException("Sign up failed");
-      }
-      return UserModel.fromFirebaseUser(userCreds.user!);
+      if (userCreds.user == null) throw AuthException("Sign up failed");
+      await userCreds.user!.updateDisplayName(userName);
+      await userCreds.user!.reload();
+      final updatedUser = firebaseAuth.currentUser!;
+      return UserModel.fromFirebaseUser(updatedUser);
+    } on FirebaseAuthException catch (e) {
+      throw AuthException(e.message ?? 'Sign up failed');
     } catch (e) {
-      throw AuthException("An Unexpected error occured.");
+      throw AuthException("An unexpected error occurred.");
+    }
+  }
+  @override
+  Future<UserModel?> getCurrentUser() async {
+    try {
+      final user = firebaseAuth.currentUser;
+      if (user == null) return null;
+      return UserModel.fromFirebaseUser(user);
+    } on FirebaseAuthException catch (e) {
+      throw AuthException(e.message ?? 'Failed to get user');
+    } catch (e) {
+      throw AuthException("An unexpected error occurred.");
+    }
+  }
+
+  @override
+  Future<void> signOut() async {
+    try {
+      await firebaseAuth.signOut();
+    } on FirebaseAuthException catch (e) {
+      throw AuthException(e.message ?? 'Sign out failed');
+    } catch (e) {
+      throw AuthException("An unexpected error occurred.");
+    }
+  }
+
+  @override
+  Future<UserModel> signInWithGoogle() async {
+    try {
+      final googleUser = await googleSignIn.authenticate();
+      final googleAuth = googleUser.authentication;
+      final idToken = googleAuth.idToken;
+      if (idToken == null) throw AuthException("Sign in failed");
+      final userCreds = await firebaseAuth.signInWithCredential(
+        GoogleAuthProvider.credential(idToken: idToken),
+      );
+      if (userCreds.user == null) throw AuthException("Sign in failed");
+      return UserModel.fromFirebaseUser(userCreds.user!);
+    } on FirebaseAuthException catch (e) {
+      throw AuthException(e.message ?? 'Google sign in failed');
+    } catch (e) {
+      throw AuthException("An unexpected error occurred.");
+    }
+  }
+  @override
+  Future<void> forgotPassword(String email) async {
+    try {
+      await firebaseAuth.sendPasswordResetEmail(email: email);
+    } on FirebaseAuthException catch (e) {
+      // e.g. user-not-found, invalid-email, too-many-requests
+      throw AuthException(e.message ?? 'Password reset failed');
+    } catch (e) {
+      throw AuthException("An unexpected error occurred");
     }
   }
 }
