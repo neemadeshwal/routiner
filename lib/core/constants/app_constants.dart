@@ -31,8 +31,15 @@ class AppConstants {
 
   static const String logIn = "log in";
 
+  static const String create="create";
+  static const String continue_="continue";
+
+  static const String forgotPasswordDescription = "Enter your email to reset your password";
+
   static const String forgotPassword = "forgot password ?";
 
+  static const String enterOtpCode="enter otp code";
+  static const String enterOtpCodeDescription="Enter the 6-digit code sent to your email";
   static const String dontHaveAnAccount = "Don't have an account?";
 
   static const String alreadyHaveAnAccount = "already have an account?";
@@ -40,7 +47,10 @@ class AppConstants {
 
   static const String createYourAccount = "create your account";
   static const String signupwithemail = "or sign up with email";
-
+  static const String resetPassword = "reset password";
+  static const String resetPasswordDescription = "Enter your new password";
+  static const String newPassword = "new password";
+  static const String confirmPassword = "confirm password";
   static const String fullName = "full name";
 
   static const String iHaveRead = "i have read ";

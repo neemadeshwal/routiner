@@ -19,10 +19,16 @@ class SignUpRequested extends AuthEvent {
   });
 }
 
-class SignOutRequested extends AuthEvent {}
+class SignOutRequested extends AuthEvent {
+
+  SignOutRequested();
+}
 
 class CheckAuthStatusRequested extends AuthEvent {}
 
+class SignInWithGoogleRequested extends AuthEvent {
+  SignInWithGoogleRequested();
+}
 class ForgotPasswordRequested extends AuthEvent {
   final String email;
 

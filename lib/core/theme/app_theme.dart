@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:pinput/pinput.dart';
 
 import 'package:routiner/core/theme/theme_imports.dart';
 
@@ -1037,4 +1038,17 @@ class AppTheme {
       ),
     );
   }
+  static  get defaultPinTheme => PinTheme(
+  width: 56,
+  height: 56,
+  textStyle: TextStyle(fontSize: 20, color: Color.fromRGBO(30, 60, 87, 1), fontWeight: FontWeight.w500),
+  decoration: BoxDecoration(
+    border: Border.all(color: Color.fromRGBO(234, 239, 243, 1)),
+    borderRadius: BorderRadius.circular(14),
+  ),
+);
+static PinTheme get focusedPinTheme => defaultPinTheme.copyDecorationWith(
+  border: Border.all(color: AppColors.primary),
+  borderRadius: BorderRadius.circular(14),
+);
 }
