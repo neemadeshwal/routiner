@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -50,20 +51,30 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDatasource {
     String password,
     String userName,
   ) async {
+    
     try {
       final userCreds = await firebaseAuth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
       if (userCreds.user == null) throw AuthException("Sign up failed");
+      debugPrint("sign up successful: ${userCreds.user!.uid}");
       await userCreds.user!.updateDisplayName(userName);
       await userCreds.user!.reload();
       final updatedUser = firebaseAuth.currentUser!;
+      await firestore.collection('users').doc(updatedUser.uid).set({
+  'uid': updatedUser.uid,
+  'email': updatedUser.email,
+  'displayName': updatedUser.displayName,
+  'createdAt': FieldValue.serverTimestamp(),
+  'onboardingComplete': false,   // ← the only setup-related field here
+});
+
       return UserModel.fromFirebaseUser(updatedUser);
     } on FirebaseAuthException catch (e) {
       throw AuthException(e.message ?? 'Sign up failed');
     } catch (e) {
-      throw AuthException("An unexpected error occurred.");
+      throw AuthException(e.toString());
     }
   }
   @override
@@ -101,7 +112,18 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDatasource {
         GoogleAuthProvider.credential(idToken: idToken),
       );
       if (userCreds.user == null) throw AuthException("Sign in failed");
-      return UserModel.fromFirebaseUser(userCreds.user!);
+     final doc = await firestore.collection('users').doc(userCreds.user!.uid).get();
+    if (!doc.exists) {
+      await firestore.collection('users').doc(userCreds.user!.uid).set({
+        'uid': userCreds.user!.uid,
+        'email': userCreds.user!.email,
+        'displayName': userCreds.user!.displayName,
+        'photoUrl': userCreds.user!.photoURL,
+        'createdAt': FieldValue.serverTimestamp(),
+        'onboardingComplete': false,
+      });
+    }
+     return UserModel.fromFirebaseUser(userCreds.user!);
     } on FirebaseAuthException catch (e) {
       throw AuthException(e.message ?? 'Google sign in failed');
     } catch (e) {

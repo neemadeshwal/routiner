@@ -51,9 +51,11 @@ class _SigninScreen extends State<SignUpScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AuthBloc, AuthState>(
+      listenWhen: (previous, current) =>
+          current is Authenticated || current is AuthError,
       listener: (context, state) {
         if (state is Authenticated) {
-          context.go(RouteConstants.home);
+          context.go(RouteConstants.userSetup);
         }
         if (state is AuthError) {
           ScaffoldMessenger.of(context).showSnackBar(
@@ -96,7 +98,6 @@ class _SigninScreen extends State<SignUpScreen> {
                                     borderRadius: 999,
                                     height: 55,
                                     width: 55,
-                                    isLoading: loading,
 
                                     bgColor: Colors.transparent,
                                     borderWidth: 1,

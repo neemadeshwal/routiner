@@ -10,4 +10,5 @@ class IconsAssets {
 class ImagesAssets {
   static const String welcomeBg = "assets/images/welcome/welcome-bg.png";
   static const String authBg = "assets/images/auth/auth-bg.png";
+  static const String wakeupBg = "assets/images/onboarding/wakeup_bg.png";
 }

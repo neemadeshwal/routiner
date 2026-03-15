@@ -8,6 +8,8 @@ import 'package:routiner/features/auth/presentation/pages/signup_screen.dart';
 import 'package:routiner/features/home/presentation/pages/home_screen.dart';
 import 'package:routiner/core/constants/constants_imports.dart';
 import 'package:routiner/features/onboarding/presentation/pages/onboarding_screen.dart';
+import 'package:routiner/features/onboarding/presentation/pages/all_set_success_screen.dart';
+import 'package:routiner/features/onboarding/presentation/pages/user_setup_screen.dart';
 import 'package:routiner/features/onboarding/presentation/pages/welcome_screen.dart';
 import 'package:routiner/features/splash/presentation/pages/splash_screen.dart';
 
@@ -42,7 +44,15 @@ class RouteConfig {
       ),
       GoRoute(path: RouteConstants.forgotPassword,builder: (context,state)=>const ForgotPasswordScreen()),
       GoRoute(path:RouteConstants.otpVerification,builder:(context,state)=>const OtpVerificationScreen()),
-      GoRoute(path:RouteConstants.resetPassword,builder:(context,state)=>const ResetPasswordScreen())
+      GoRoute(path:RouteConstants.resetPassword,builder:(context,state)=>const ResetPasswordScreen()),
+      GoRoute(
+        path: RouteConstants.userSetup,
+        builder: (context, state) => const UserSetupScreen(),
+      ),
+      GoRoute(
+        path: RouteConstants.allSetSuccess,
+        builder: (context, state) => const AllSetSuccessScreen(),
+      ),
     ],
   );
   static GoRouter get router => _router;

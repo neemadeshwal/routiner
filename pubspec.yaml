@@ -81,6 +81,7 @@ flutter:
     - assets/images/welcome/
     - assets/images/auth/
     - assets/icons/auth/
+    - assets/images/onboarding/wakeup_bg.png
 
 
 

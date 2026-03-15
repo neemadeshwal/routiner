@@ -7,6 +7,7 @@ import 'package:routiner/core/config/route_config.dart';
 import 'package:routiner/core/theme/app_theme.dart';
 import 'package:routiner/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:routiner/features/auth/presentation/bloc/auth_event.dart';
+import 'package:routiner/features/onboarding/presentation/bloc/user_setup_bloc.dart';
 import 'package:routiner/firebase_options.dart';
 import 'package:routiner/injection_container.dart' as di;
 
@@ -27,8 +28,12 @@ void main() async {
   runApp(
     BlocProvider<AuthBloc>(
       create: (context) => di.sl<AuthBloc>()..add(CheckAuthStatusRequested()),
-      child: const MyApp(),
+      child: BlocProvider<UserSetupBloc>(
+        create: (context) => di.sl<UserSetupBloc>(),
+        child: const MyApp(),
+      ),
     ),
+
     // const MyApp(),
   );
 }
