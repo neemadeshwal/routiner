@@ -8,4 +8,6 @@ class RouteConstants {
   static const String forgotPassword="/forgot_password";
   static const String otpVerification="/otp_verification";
   static const String resetPassword="/reset_password";
+  static const String userSetup = "/user_setup";
+  static const String allSetSuccess = "/all_set_success";
 }

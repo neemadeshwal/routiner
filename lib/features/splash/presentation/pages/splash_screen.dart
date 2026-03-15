@@ -1,10 +1,14 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:routiner/core/constants/constants_imports.dart';
+import 'package:routiner/core/constants/route_constants.dart';
 import 'package:routiner/core/theme/theme_imports.dart';
+import 'package:routiner/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:routiner/features/auth/presentation/bloc/auth_state.dart';
 
 class SplashScreen extends StatefulWidget {
   // When we use const,flutter remembers the widget and doesn't rebuild it when the state or properties hasn't changed, won't relocate new memory to the widget and use the same old one.
@@ -26,44 +30,46 @@ class SplashScreen extends StatefulWidget {
 // ----> the split is required because the state of the widget can change over time, and we want to keep the logic that manages that state separate from the widget's structure and appearance. By splitting the widget into a StatefulWidget and its corresponding State class, we can ensure that the widget can rebuild itself when necessary without losing its state. The StatefulWidget is responsible for creating the State object, which holds the mutable state and contains the logic for updating that state. This separation allows for better organization and maintainability of the code.
 // Widget is cheap and get thrown away and rebuilt constantly, but the state is expensive and stays in memory.
 class _SplashScreenState extends State<SplashScreen> {
+  bool _minDelayDone = false;
+
   @override
-  // init state --> It is the very thing that happens when your state object is created
-  // super.initState() -> this is calling the initState method of the parent class, which is State<SplashScreen>. This is necessary to ensure that any initialization logic defined in the parent class is executed before we add our own initialization logic in the _SplashScreenState class. It is a common practice to call the super method when overriding lifecycle methods in Flutter to maintain the integrity of the widget's lifecycle and ensure that all necessary setup is performed correctly.
-  // _navigateToNext() -> this is a custom method defined in the _SplashScreenState class that is responsible for navigating to the next screen after a certain duration. It uses the Timer class from the dart:async library to delay the navigation by a specified duration (in this case, 1 second). When the timer completes, it checks if the widget is still mounted (i.e., it is still part of the widget tree) and then uses the context.go() method from the go_router package to navigate to the onBoarding route defined in RouteConstants.
   void initState() {
     super.initState();
-    _navigateToNext();
+    Future.delayed(const Duration(seconds: 1), () {
+      if (!mounted) return;
+      setState(() => _minDelayDone = true);
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (!mounted) return;
+        final state = context.read<AuthBloc>().state;
+        _navigateFromAuth(state);
+      });
+    });
   }
 
-  void _navigateToNext() async {
-    // using const here because the duration is not changing and it is a compile time constant, so we can use const to improve performance by avoiding unnecessary object creation.
-    // (){...} this is anonymouse function
-
-    // if(mounted)->
-    //The Problem: What if the user closes the app or hits the "back" button before the 1 second is up? The Timer will still fire. If you try to navigate using a context that no longer exists in the tree, your app will crash with a "Looking up a deactivated widget's ancestor" error.
-
-    // The Fix: mounted is a boolean property provided by the State class. It is true if the widget is currently on the screen and false if it has been removed. This check ensures you only navigate if the Splash Screen is still visible
-    await Future.delayed(const Duration(seconds: 1));
-
-    if (!mounted) return;
-    // context: This tells the router where you are currently in the app's "family tree."
-
-    context.go(RouteConstants.onBoarding);
+  void _navigateFromAuth(AuthState state) {
+    if (!_minDelayDone || !mounted) return;
+    // Only navigate if we're still on the splash route (avoid reacting after user navigated to signup/signin)
+    final currentPath = GoRouter.of(context).routerDelegate
+        .currentConfiguration.uri.path;
+    if (currentPath != RouteConstants.splash && currentPath != '/') return;
+    if (state is Authenticated) {
+      context.go(RouteConstants.home);
+    } else if (state is Unauthenticated || state is AuthError) {
+      context.go(RouteConstants.onBoarding);
+    }
   }
 
   @override
-  //BuildContext context is essentially a "Where am I?" locator. It tells Flutter exactly where a specific widget sits within the entire widget tree.
-  //Because the context knows its position, it can look up the tree to find information from its ancestors.
-  //Flutter passes the context into the build method because you cannot build a widget in a vacuum. To build a Container, Flutter needs to know the environment (the theme, the screen size, the text direction) that only the context can provide.
   Widget build(BuildContext context) {
-    // The Scaffold is designed with specific "slots" where you can place widgets. Here are the
-    // e.g- appBar,body,drawer,bgcolor
-
-    // why scaffold is important-
-    //Handles Keyboard Overlaps: When a user taps a text field, the keyboard pops up. The Scaffold can automatically resize its body so the keyboard doesn't cover your input fields.
-    //Manages "Safe Areas": It helps ensure your content doesn't get cut off by phone notches or the "home bar" on modern iPhones.
-    // Material Design Standards: It automatically applies correct spacing, shadows, and transitions that make an app feel "native" to Android and iOS.
-    return Scaffold(
+    return BlocListener<AuthBloc, AuthState>(
+      listenWhen: (previous, current) =>
+          current is Authenticated ||
+          current is Unauthenticated ||
+          current is AuthError,
+      listener: (context, state) {
+        _navigateFromAuth(state);
+      },
+      child: Scaffold(
       body: Container(
         decoration: AppColors.backgroundGradient,
         // SafeArea is a widget that ensures your app's content is positioned within the "visible" parts of a device's screen.
@@ -89,6 +95,7 @@ class _SplashScreenState extends State<SplashScreen> {
           ),
         ),
       ),
+    ),
     );
   }
 }
