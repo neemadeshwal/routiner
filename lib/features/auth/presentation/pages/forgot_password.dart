@@ -25,7 +25,6 @@ class ForgotPasswordScreen extends StatefulWidget {
 class _ForgotPasswordScreen extends State<ForgotPasswordScreen> {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
-
   void _handleContinue() {
     final email = _emailController.text.trim();
     if (_formKey.currentState!.validate()) {

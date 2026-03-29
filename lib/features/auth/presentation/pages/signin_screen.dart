@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -24,12 +26,31 @@ class _SigninScreen extends State<SigninScreen> {
   final _passwordController = TextEditingController();
   bool _showPassword = false;
 
+  Future<void> _navigateAfterSignIn(BuildContext context) async {
+    final uid = FirebaseAuth.instance.currentUser?.uid;
+    if (uid == null) {
+      if (context.mounted) context.go(RouteConstants.userSetup);
+      return;
+    }
+    try {
+      final doc =
+          await FirebaseFirestore.instance.collection('users').doc(uid).get();
+      final onboardingComplete =
+          doc.data()?['onboardingComplete'] as bool? ?? false;
+      if (!context.mounted) return;
+      if (onboardingComplete) {
+        context.go(RouteConstants.home);
+      } else {
+        context.go(RouteConstants.userSetup);
+      }
+    } catch (_) {
+      if (context.mounted) context.go(RouteConstants.userSetup);
+    }
+  }
+
   void _handleLogin() {
     final email = _emailController.text;
     final password = _passwordController.text;
-
-    print('Email: $email');
-    print('Password: $password');
 
     if (_formKey.currentState!.validate()) {
       context.read<AuthBloc>().add(
@@ -52,7 +73,7 @@ class _SigninScreen extends State<SigninScreen> {
           current is Authenticated || current is AuthError,
       listener: (context, state) {
         if (state is Authenticated) {
-          context.go(RouteConstants.userSetup);
+          _navigateAfterSignIn(context);
         }
         if (state is AuthError) {
           ScaffoldMessenger.of(context).showSnackBar(

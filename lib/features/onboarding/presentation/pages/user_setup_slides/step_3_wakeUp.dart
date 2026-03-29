@@ -32,7 +32,7 @@ class Step3Wakeup extends StatefulWidget {
 
 class _Step3WakeupState extends State<Step3Wakeup> {
   static String _formatTime(int hour, int minute, bool isAm) {
-    return '${hour}:${minute.toString().padLeft(2, '0')} ${isAm ? 'AM' : 'PM'}';
+    return '$hour:${minute.toString().padLeft(2, '0')} ${isAm ? 'AM' : 'PM'}';
   }
 
   void _onTimeChanged(BuildContext context, int hour, int minute, bool isAm) {

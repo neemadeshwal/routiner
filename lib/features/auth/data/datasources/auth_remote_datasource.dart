@@ -51,7 +51,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDatasource {
     String password,
     String userName,
   ) async {
-    
+
     try {
       final userCreds = await firebaseAuth.createUserWithEmailAndPassword(
         email: email,
@@ -63,11 +63,11 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDatasource {
       await userCreds.user!.reload();
       final updatedUser = firebaseAuth.currentUser!;
       await firestore.collection('users').doc(updatedUser.uid).set({
-  'uid': updatedUser.uid,
-  'email': updatedUser.email,
-  'displayName': updatedUser.displayName,
-  'createdAt': FieldValue.serverTimestamp(),
-  'onboardingComplete': false,   // ← the only setup-related field here
+      'uid': updatedUser.uid,
+      'email': updatedUser.email,
+      'displayName': updatedUser.displayName,
+      'createdAt': FieldValue.serverTimestamp(),
+      'onboardingComplete': false,   // ← the only setup-related field here
 });
 
       return UserModel.fromFirebaseUser(updatedUser);
