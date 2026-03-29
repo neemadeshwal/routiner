@@ -10,4 +10,8 @@ class RouteConstants {
   static const String resetPassword="/reset_password";
   static const String userSetup = "/user_setup";
   static const String allSetSuccess = "/all_set_success";
+  static const String activity = "/activity";
+  static const String explore = "/explore";
+  static const String profile = "/profile";
+  static const String createCustomHabit = "/create_custom_habit";
 }

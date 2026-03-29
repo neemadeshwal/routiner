@@ -7,6 +7,8 @@ import 'package:routiner/core/config/route_config.dart';
 import 'package:routiner/core/theme/app_theme.dart';
 import 'package:routiner/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:routiner/features/auth/presentation/bloc/auth_event.dart';
+import 'package:routiner/features/auth/presentation/bloc/auth_state.dart';
+import 'package:routiner/features/auth/presentation/widgets/biometric_dialog.dart';
 import 'package:routiner/features/onboarding/presentation/bloc/user_setup_bloc.dart';
 import 'package:routiner/firebase_options.dart';
 import 'package:routiner/injection_container.dart' as di;
@@ -57,7 +59,41 @@ class MyApp extends StatelessWidget {
         darkTheme: AppTheme.darkTheme,
         routerConfig: _router,
         builder: (context, widget) {
-          return widget!;
+          return BlocListener<AuthBloc, AuthState>(
+            listenWhen: (previous, current) =>
+                current is BiometricAuthenticationRequired &&
+                previous is! BiometricAuthenticationRequired,
+            listener: (context, state) {
+              if (state is! BiometricAuthenticationRequired) return;
+              print('[BIOMETRIC_DEBUG] MaterialApp: showDialog(BiometricDialog)');
+              void show() {
+                final navContext = RouteConfig.rootNavigatorKey.currentContext;
+                if (navContext == null || !navContext.mounted) return;
+                showDialog<void>(
+                  context: navContext,
+                  barrierDismissible: false,
+                  useRootNavigator: true,
+                  builder: (dialogContext) => BiometricDialog(
+                    reason:
+                        'Authenticate to continue after returning to the app',
+                    onResult: (success) {
+                      print(
+                        '[BIOMETRIC_DEBUG] BiometricDialog onResult success=$success',
+                      );
+                    },
+                  ),
+                );
+              }
+
+              final navContext = RouteConfig.rootNavigatorKey.currentContext;
+              if (navContext != null && navContext.mounted) {
+                show();
+              } else {
+                WidgetsBinding.instance.addPostFrameCallback((_) => show());
+              }
+            },
+            child: widget!,
+          );
         },
       ),
     );

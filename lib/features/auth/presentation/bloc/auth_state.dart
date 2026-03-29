@@ -10,6 +10,7 @@ class Authenticated extends AuthState {
   // AuthAuthenticated({required this.user});
 }
 
+
 class Unauthenticated extends AuthState {}
 
 class AuthError extends AuthState {
@@ -19,3 +20,13 @@ class AuthError extends AuthState {
 }
 
 class ForgotPasswordSuccess extends AuthState {}
+
+class BiometricAuthenticationRequired extends AuthState{
+  
+}
+class BiometricAuthenticationSuccess extends AuthState{}
+
+class BiometricAuthenticationFailed extends AuthState{
+  final String message;
+  BiometricAuthenticationFailed(this.message);
+}

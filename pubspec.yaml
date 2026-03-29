@@ -48,6 +48,8 @@ dependencies:
   get_it: ^9.2.0
   flutter_bloc: ^9.1.1
   pinput: ^6.0.2
+  local_auth: ^3.0.1
+  flutter_secure_storage: ^10.0.0
 
 dev_dependencies:
   flutter_test:
@@ -82,6 +84,7 @@ flutter:
     - assets/images/auth/
     - assets/icons/auth/
     - assets/images/onboarding/wakeup_bg.png
+    - assets/icons/route/
 
 
 

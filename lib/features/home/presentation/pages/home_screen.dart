@@ -17,14 +17,13 @@ class HomeScreen extends StatelessWidget {
           context.go(RouteConstants.signin);
         }
       },
-      child: Scaffold(
-        body: Center(
+      child: 
+      Center(
           child: CustomButton(
             text: "Log out",
             onPressed: () => context.read<AuthBloc>().add(SignOutRequested()),
           ),
         ),
-      ),
     );
   }
 }

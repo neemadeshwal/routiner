@@ -35,4 +35,16 @@ class ForgotPasswordRequested extends AuthEvent {
   ForgotPasswordRequested({required this.email});
 }
 
+class AuthenticateWithBiometricRequested extends AuthEvent{
+  final String reason;
+  AuthenticateWithBiometricRequested({required this.reason});
+}
 class AuthStatusReset extends AuthEvent {}
+
+
+class CheckBiometricRequiredRequested extends AuthEvent {
+}
+
+/// Turn off biometric re-lock and return to the app (e.g. simulator without Face ID).
+class BiometricDisableGateRequested extends AuthEvent {}
+
